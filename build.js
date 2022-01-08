@@ -131,9 +131,11 @@ Object.keys(relics).forEach(relName => {
         relic.plat += comp.plat;
     });
 
+    relic.comps = [...relic.comps];
+
     relicsWithPlat.push(relic);
 });
 
 relicsWithPlat = relicsWithPlat.sort((a,b) => b.plat-a.plat);
 
-writeFile('')
+writeFile('pub/data.json', JSON.stringify(relicsWithPlat, 0 ,2));
