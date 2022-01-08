@@ -1,0 +1,4 @@
+[submodule "warframe-items"]
+	path = warframe-items
+	url = https://github.com/WFCD/warframe-items
+	shallow = true
