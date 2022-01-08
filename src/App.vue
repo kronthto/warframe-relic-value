@@ -34,4 +34,12 @@ export default {
   color: #2c3e50;
   margin-top: 35px;
 }
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #444;
+  }
+  #app {
+  color: rgb(216, 230, 241);
+  }
+}
 </style>

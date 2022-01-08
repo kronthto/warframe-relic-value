@@ -6,6 +6,7 @@ const items = JSON.parse(await readFile('./warframe-items/data/json/All.json'));
 let res = {};
 let relics = {};
 let compNames = {};
+let rarity_map = {}
 
 const banned = ['Requiem', 'Flawless', 'Radiant', 'Exceptio'];
 
@@ -48,6 +49,8 @@ items.forEach(item => {
                 }
 
                 res[comp.uniqueName].add(drop.location);
+
+                rarity_map[comp.uniqueName+drop.location] = drop.chance;
             }
         });
 
@@ -131,11 +134,16 @@ Object.keys(relics).forEach(relName => {
         relic.plat += comp.plat;
     });
 
-    relic.comps = [...relic.comps];
+    relic.comps = [...relic.comps].sort((a,b) => b.plat-a.plat);
+    relic.comps = relic.comps.map(comp => {
+        return Object.assign({}, comp, {
+            rarity: rarity_map[comp.uniqueName+relic.name]
+        });
+    });
 
     relicsWithPlat.push(relic);
 });
 
 relicsWithPlat = relicsWithPlat.sort((a,b) => b.plat-a.plat);
 
-writeFile('public/data.json', JSON.stringify(relicsWithPlat, 0 ,2));
+writeFile('public/data.json', JSON.stringify({date: Date.now(), data: relicsWithPlat}, 0 ,2));

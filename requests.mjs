@@ -41,7 +41,7 @@ const makeReq = async (url) => {
         throw err;
     }
     
-    if (Date.now() - statRes.mtimeMs > 3*3600*1000) {
+    if (Date.now() - statRes.mtimeMs > 9*3600*1000) {
         return _makeReqAndSave(url, urlhash);
     }
 

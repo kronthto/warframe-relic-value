@@ -1,15 +1,16 @@
 <template>
-  <input type="search" v-model="filter" placeholder="Filter" style="margin-bottom: 10px"/>
+  <input type="search" v-model="filter" placeholder="Filter" style="margin-bottom: 10px"/> <label><input type="checkbox" v-model="rarest">Sort by Rarest</label>
   <div class="cards">
     <div v-for="relic in relicsFiltered" :key="relic.uniqueName" class="card">
       <div>{{ relic.name }}</div>
       <details>
-        <summary>Plat: {{ relic.plat.toFixed(1) }}</summary>
+        <summary>Plat: {{ relic.plat.toFixed(1) }} | <span v-bind:style="{ color:relic.comps[0].color }">R</span>: {{ relic.comps[0].plat.toFixed(1) }}</summary>
         <ul>
-          <li v-for="comp in relic.comps.sort((a,b) => b.plat-a.plat)" :key="comp.uniqueName"><a :href="`https://warframe.market/items/${comp.marketUrlName}`" target="_blank" rel="noopener">{{ comp.name }}</a>: {{ comp.plat.toFixed(2) }}</li>
+          <li v-for="comp in relic.comps" :key="comp.uniqueName"><span v-bind:style="{ backgroundColor: comp.color, width: '5px', display:'inline-block' }">&nbsp;</span><a :href="`https://warframe.market/items/${comp.marketUrlName}`" target="_blank" rel="noopener">{{ comp.name }}</a>: {{ comp.plat.toFixed(2) }}</li>
         </ul>
       </details>
     </div>
+    <div>Updated: {{ this.updated }}</div>
   </div>
 </template>
 
@@ -19,17 +20,39 @@ export default {
   data() {
     return {
       filter: '',
+      updated: '',
+      rarest: false,
       relics: []
     }
   },
   mounted() {
-    fetch('data.json').then(res => res.json()).then(data => this.relics = data);
+    fetch('data.json?v=2').then(res => res.json()).then(data => {
+      this.relics = data.data.filter(rel => rel.comps.length);
+      this.relics.forEach(rel => {
+        rel.comps.forEach(comp => {
+          if (comp.rarity < 0.05) {
+            comp.color = 'gold';
+          } else if (comp.rarity < 0.15) {
+            comp.color = 'silver';
+          } else {
+            comp.color = '#bf8970';
+          }
+        });
+      })
+      this.updated = new Date(data.date);
+    });
   },
   computed: {
     relicsFiltered() {
-      if (!this.filter) return this.relics;
+      let data = this.relics;
 
-      return this.relics.filter(relic => relic.name.toLowerCase().includes(this.filter.toLowerCase()));
+      if (this.rarest) {
+        data = [...data].sort((a,b) => b.comps[0].plat - a.comps[0].plat);
+      }
+
+      if (!this.filter) return data;
+
+      return data.filter(relic => relic.name.toLowerCase().includes(this.filter.toLowerCase()));
     }
   }
 }
@@ -61,5 +84,11 @@ export default {
 .card details li {
     border-bottom: 1px solid #ccc;
     margin-bottom: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    border-color: white;
+  }
 }
 </style>
