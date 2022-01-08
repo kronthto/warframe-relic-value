@@ -1,4 +1,4 @@
-import makeReq from './requests.js';
+import makeReq from './requests.mjs';
 import { readFile, writeFile } from 'fs/promises';
 
 const items = JSON.parse(await readFile('./warframe-items/data/json/All.json'));
@@ -138,4 +138,4 @@ Object.keys(relics).forEach(relName => {
 
 relicsWithPlat = relicsWithPlat.sort((a,b) => b.plat-a.plat);
 
-writeFile('pub/data.json', JSON.stringify(relicsWithPlat, 0 ,2));
+writeFile('public/data.json', JSON.stringify(relicsWithPlat, 0 ,2));
