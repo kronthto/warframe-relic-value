@@ -2,7 +2,7 @@
   <input type="search" v-model="filter" placeholder="Filter" style="margin-bottom: 10px"/> <label><input type="checkbox" v-model="rarest">Sort by Rarest</label>
   <div class="cards">
     <div v-for="relic in relicsFiltered" :key="relic.uniqueName" class="card">
-      <div>{{ relic.name }}</div>
+      <div>{{ relic.name.replace(' Relic', '') }}</div>
       <details>
         <summary>Plat: {{ relic.plat.toFixed(1) }} | <span v-bind:style="{ color:relic.comps[0].color }">R</span>: {{ relic.comps[0].plat.toFixed(1) }}</summary>
         <ul>
