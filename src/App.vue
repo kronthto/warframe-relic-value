@@ -34,12 +34,20 @@ export default {
   color: #2c3e50;
   margin-top: 35px;
 }
+a:link, a:visited, a:hover {
+    font-weight: normal;
+    text-decoration: underline;
+    color: #333;
+}
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #444;
   }
   #app {
   color: rgb(216, 230, 241);
+  }
+  a:link, a:visited, a:hover {
+    color: #ddd;
   }
 }
 </style>
