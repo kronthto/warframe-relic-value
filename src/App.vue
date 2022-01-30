@@ -5,22 +5,30 @@
     </p>
 
   <main>
-     <RelicList />
+     <DropList v-if="mode==='drops'" />
+     <RelicList v-else />
   </main>
 
     <footer style="margin-top: 25px;">
-      <a href="https://github.com/kronthto/warframe-relic-value">Source on GitHub</a>
+      <a @click.prevent="mode = 'drops'">Droplist</a> | <a href="https://github.com/kronthto/warframe-relic-value">Source on GitHub</a>
     </footer>
  
 </template>
 
 <script>
 import RelicList from './components/RelicList.vue'
+import DropList from './components/DropList.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      mode: 'relics'
+    }
+  },
   components: {
-    RelicList
+    RelicList,
+    DropList
   }
 }
 </script>

@@ -6,7 +6,7 @@
       <details>
         <summary>Plat: {{ relic.plat.toFixed(1) }} | <span v-bind:style="{ color:relic.comps[0].color }">R</span>: {{ relic.comps[0].plat.toFixed(1) }}</summary>
         <ul>
-          <li v-for="comp in relic.comps" :key="comp.uniqueName"><span v-bind:style="{ backgroundColor: comp.color, width: '5px', display:'inline-block' }">&nbsp;</span><a :href="`https://warframe.market/items/${comp.marketUrlName}`" target="_blank" rel="noopener">{{ comp.name }}</a>: {{ comp.plat.toFixed(2) }}</li>
+          <li v-for="comp in relic.comps" :key="comp.uniqueName"><span v-bind:style="{ backgroundColor: comp.color, width: '10px', display:'inline-block', marginRight:'5px' }">&nbsp;</span><a :href="`https://warframe.market/items/${comp.marketUrlName}`" target="_blank" rel="noopener">{{ comp.name }}</a>: {{ comp.plat.toFixed(2) }}</li>
         </ul>
       </details>
     </div>
